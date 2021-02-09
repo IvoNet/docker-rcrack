@@ -49,6 +49,8 @@ fi
 
 echo "Retrieving cover"
 ffmpeg -y -v quiet -i "${SOURCE_DIR}/${AAX_FILE}" "./cover.png"
+RETVAL=$?
+[ $RETVAL -eq 0 ] || die "The ffmpeg command failed with exit code: $RETVAL"
 
 ARTIST="$(ffprobe -v quiet -print_format json -show_format "${SOURCE_DIR}/${AAX_FILE}" | jq -r ".format.tags.artist")"
 ALBUM_ARTIST="$(ffprobe -v quiet -print_format json -show_format "${SOURCE_DIR}/${AAX_FILE}" | jq -r ".format.tags.album_artist")"
@@ -67,7 +69,7 @@ echo "Genre        : $GENRE"
 echo "Comment      : $COMMENT"
 
 echo "Converting to audio..."
-ffmpeg -activation_bytes "${ACTIVATION_BYTES}" -i "${SOURCE_DIR}/${AAX_FILE}" -vn -c:a copy -map_metadata 0 -map_metadata:s:a 0:s:a -movflags use_metadata_tags "./temp.m4a"
+ffmpeg -v quiet -activation_bytes "${ACTIVATION_BYTES}" -i "${SOURCE_DIR}/${AAX_FILE}" -vn -c:a copy -map_metadata 0 -map_metadata:s:a 0:s:a -movflags use_metadata_tags "./temp.m4a"
 RETVAL=$?
 [ $RETVAL -eq 0 ] || die "The ffmpeg command failed with exit code: $RETVAL"
 
@@ -84,5 +86,7 @@ else
 fi
 
 mv -v ./temp.m4b "${OUTPUT_DIR}/${AAX_FILE%.*}.m4b"
+RETVAL=$?
+[ $RETVAL -eq 0 ] || die "The move failed with exit code: $RETVAL"
 
 rm -rf ./cover.png ./temp.m4a 2>/dev/null

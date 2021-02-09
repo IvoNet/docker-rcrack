@@ -9,4 +9,5 @@ if [ -z "$1" ]; then
 else
   ./aax_2_m4b.sh "$@"
 fi
-
+rm -f ./activation_bytes 2>/dev/null
+echo "Finished."
