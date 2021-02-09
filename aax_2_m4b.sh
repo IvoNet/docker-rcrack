@@ -53,16 +53,17 @@ ffmpeg -y -v quiet -i "${SOURCE_DIR}/${AAX_FILE}" "cover.png"
 
 echo "Converting to audio..."
 set -x
-ffmpeg -activation_bytes "${ACTIVATION_BYTES}" -i "${SOURCE_DIR}/${AAX_FILE}" -vn -c:a copy "./temp.m4a"
-#ffmpeg -activation_bytes "${ACTIVATION_BYTES}" -i "${SOURCE_DIR}/${AAX_FILE}" -threads 4 -vn -y -acodec aac -strict -2 -map_metadata 0 -map_metadata:s:a 0:s:a -ac 1 "${OUTPUT_DIR}/${AAX_FILE%.*}.m4a"
+ffmpeg -activation_bytes "${ACTIVATION_BYTES}" -i "${SOURCE_DIR}/${AAX_FILE}" -vn -c:a copy -map_metadata 0 -map_metadata:s:a 0:s:a -movflags use_metadata_tags "./temp.m4b"
+#ffmpeg -activation_bytes "${ACTIVATION_BYTES}" -i "${SOURCE_DIR}/${AAX_FILE}" -threads 4 -vn -y -acodec aac -strict -2 -map_metadata 0 -map_metadata:s:a 0:s:a -ac 1 "${OUTPUT_DIR}/${AAX_FILE%.*}.m4b"
 set +x
 
 if [ -f "./cover.png" ]; then
-   set -x
-   ffmpeg -y -v quiet -stats -r 1 -loop 1 -i "./cover.png" -i "./temp.m4a" -c:a copy -shortest "${OUTPUT_DIR}/${AAX_FILE%.*}.m4a"
-   set +x
+   mp4art --add "./cover.png" "./temp.m4b"
+   RETVAL=$?
+   [ $RETVAL -eq 0 ] || die "The mp4art command failed with exit code: $RETVAL"
 else
    echo "No cover was found."
-   cp -v ./temp.m4a "${OUTPUT_DIR}/${AAX_FILE%.*}.m4a"
 fi
+
+mv -v ./temp.m4b "${OUTPUT_DIR}/${AAX_FILE%.*}.m4b"
 
