@@ -39,6 +39,7 @@ docker run -it --rm \
 
 or run it without arguments. It will then convert all *.aax files in the folder you run it.
 
+or use the `rcrack.sh` script
 
 # Thanks
 
