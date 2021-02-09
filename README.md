@@ -25,6 +25,11 @@ docker run -it --rm \
    ivonet/rcrack:latest file.aax
 ```
 
+# Thanks
+
+For creating the RainbowCrack tool
+- [inAudible-NG](ttps://github.com/inAudible-NG)
+
 # License
 ## DON'T BE A DICK PUBLIC LICENSE
 
