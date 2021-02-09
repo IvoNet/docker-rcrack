@@ -1,17 +1,26 @@
-# inAudible-NG tables
+# rcrack - Audible aax 2 m4b converter
 
-Plugin for RainbowCrack to recover your own Audible activation data (activation_bytes) in an offline manner.
+This docker image has been based on the ivonet/mediatools image
+with the addition of having the [rcrack](https://github.com/inAudible-NG/tables) tool installed
 
-You need to recover or retrieve your "activation_bytes" only once. This single "activation_bytes" value will work for all your .aax files.
+Now if you have an Audible account and want to have your books available offline
+without the irritating DRM on it you can use this tool.
 
 # Prerequisites
 
 - Docker
-- ffmpeg
 
 # Usage 
 
-ffprobe AUDIBLE_AUDIO.aax 2>&1 |grep checksum|sed 's/^.*== //'g
+- Put your aax file in a folder and open a terminal there
+- run the following command replacing file.aax with your file
+- it should do the rest.
+- in the first volume is where the aax file must be
+- the second volume is where the m4b file will be written to.
 
-docker run -it --rm ivonet/rcrack:latest CHECKSUM
-docker run
+```shell
+docker run -it --rm \
+   -v "$(pwd):/input:ro" \
+   -v "$(pwd):/output:rw" \
+   ivonet/rcrack:latest file.aax
+```
