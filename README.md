@@ -1,10 +1,21 @@
 # rcrack - Audible aax 2 m4b converter
 
 This docker image has been based on the ivonet/mediatools image
-with the addition of having the [rcrack](https://github.com/inAudible-NG/tables) tool installed
+with the addition of having the [rcrack](https://github.com/inAudible-NG/tables) tool installed.
 
 Now if you have an Audible account and want to have your books available offline
-without the irritating DRM on it you can use this tool.
+without the irritating DRM you can use this tool.
+
+A script has been written around it to:
+- using ffprobe to find the checksum of the aax file and extract some essential metadata (json)
+- using rcrack to retrieve the Activation Bytes based on the checksum
+- using the Activation bytes to convert the aax to m4b with ffmpeg (keeping as much metadata as possible)
+- using AtomicParsley to put the minimal metadata into the m4b
+- using ffmpeg to extract the cover
+- using mp4art to add the cover to the m4b
+- moving the final m4b to the /output volume
+
+See Usage...
 
 # Prerequisites
 
@@ -12,6 +23,7 @@ without the irritating DRM on it you can use this tool.
 
 # Usage 
 
+- log into your audible account on your pc and download a book/podcast/audiothingy
 - Put your aax file in a folder and open a terminal there
 - run the following command replacing file.aax with your file
 - it should do the rest.
