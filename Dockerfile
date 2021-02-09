@@ -10,8 +10,9 @@ RUN git config --global http.sslCAinfo /etc/ssl/certs/ca-certificates.crt \
  && git clone https://github.com/inAudible-NG/tables.git
 
 COPY aax_2_m4b.sh /tables
+COPY entrypoint.sh /tables
 
-RUN chmod +x /tables/aax_2_m4b.sh
+RUN chmod +x /tables/*.sh
 
 FROM ivonet/mediatools:latest
 
@@ -24,6 +25,6 @@ RUN apt-get update \
 COPY --from=builder /tables /rcrack
 WORKDIR /rcrack
 
-ENTRYPOINT ["./aax_2_m4b.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
 
 

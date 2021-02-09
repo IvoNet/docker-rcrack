@@ -30,21 +30,22 @@ if [ "$check1" = "" ]; then
   die "ffmpeg is missing -> e.g.: apt-get install ffmpeg"
 fi
 
-check1=$(which ffprobe)
-if [ "$check1" = "" ]; then
-  die "ffmpeg is missing -> e.g.: apt-get install ffmpeg"
-fi
-
 CHECKSUM=$(ffprobe "${SOURCE_DIR}/${AAX_FILE}" 2>&1 | grep checksum | sed 's/^.*== //'g)
 
 if [ -z "${CHECKSUM}" ]; then
   die "No checksum found."
 fi
 
-echo "Searching for activation bytes..."
-RCRACK=$(./rcrack . -h "${CHECKSUM}")
-ACTIVATION_BYTES=$(echo "${RCRACK}" | grep "hex:" | sed 's/^.*hex://g')
-echo "Your Activation bytes are: ${ACTIVATION_BYTES}"
+if [ -f "./activation_bytes" ]; then
+  ACTIVATION_BYTES=$(<./activation_bytes)
+fi
+if [ -z "${ACTIVATION_BYTES}"  ]; then
+  echo "Searching for activation bytes..."
+  RCRACK=$(./rcrack . -h "${CHECKSUM}")
+  ACTIVATION_BYTES=$(echo "${RCRACK}" | grep "hex:" | sed 's/^.*hex://g')
+  echo "${ACTIVATION_BYTES}">./activation_bytes
+  echo "Your Activation bytes are: ${ACTIVATION_BYTES}"
+fi
 
 echo "Retrieving cover"
 ffmpeg -y -v quiet -i "${SOURCE_DIR}/${AAX_FILE}" "./cover.png"
@@ -83,3 +84,5 @@ else
 fi
 
 mv -v ./temp.m4b "${OUTPUT_DIR}/${AAX_FILE%.*}.m4b"
+
+rm -rf ./cover.png ./temp.m4a 2>/dev/null

@@ -6,14 +6,14 @@ with the addition of having the [rcrack](https://github.com/inAudible-NG/tables)
 Now if you have an Audible account and want to have your books available offline
 without the irritating DRM you can use this tool.
 
-A script has been written around it to:
-- using ffprobe to find the checksum of the aax file and extract some essential metadata (json)
-- using rcrack to retrieve the Activation Bytes based on the checksum
-- using the Activation bytes to convert the aax to m4b with ffmpeg (keeping as much metadata as possible)
-- using AtomicParsley to put the minimal metadata into the m4b
-- using ffmpeg to extract the cover
-- using mp4art to add the cover to the m4b
-- moving the final m4b to the /output volume
+The docker container will (see `aax_2_m4b.sh`):
+- use ffprobe to find the checksum of the aax file and extract some essential metadata (json)
+- use rcrack to retrieve the Activation Bytes based on the checksum
+- use the Activation bytes to convert the aax to m4b with ffmpeg (keeping as much metadata as possible)
+- use AtomicParsley to put the minimal metadata into the m4b
+- use ffmpeg to extract the cover
+- use mp4art to add the cover to the m4b
+- move the final m4b to the /output volume
 
 See Usage...
 
@@ -36,6 +36,9 @@ docker run -it --rm \
    -v "$(pwd):/output:rw" \
    ivonet/rcrack:latest file.aax
 ```
+
+or run it without arguments. It will then convert all *.aax files in the folder you run it.
+
 
 # Thanks
 
