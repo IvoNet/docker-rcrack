@@ -45,7 +45,6 @@ fi
 
 echo "Searching for activation bytes..."
 RCRACK=$(./rcrack . -h "${CHECKSUM}")
-#echo "${RCRACK}"
 ACTIVATION_BYTES=$(echo "${RCRACK}"|grep "hex:"|sed 's/^.*hex://g')
 echo "Your Activation bytes are: ${ACTIVATION_BYTES}"
 
