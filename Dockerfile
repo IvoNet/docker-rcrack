@@ -16,6 +16,7 @@ RUN chmod +x /tables/*.sh
 
 FROM ivonet/mediatools:latest
 
+# TODO: jq now also used in mediatools so can be eliminated after release of it
 RUN apt-get update \
  && apt-get install --no-install-recommends -y  \
        jq \
