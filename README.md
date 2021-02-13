@@ -34,7 +34,7 @@ See Usage...
 docker run -it --rm \
    -v "$(pwd):/input:ro" \
    -v "$(pwd):/output:rw" \
-   ivonet/rcrack:latest file.aax
+   ivonet/rcrack:latest [file.aax]
 ```
 
 or run it without arguments. It will then convert all *.aax files in the folder you run it.
