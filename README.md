@@ -47,6 +47,8 @@ For creating the RainbowCrack tool
 - [inAudible-NG](ttps://github.com/inAudible-NG)
 
 # License
+
+```text
 ## DON'T BE A DICK PUBLIC LICENSE
 
 > Version 1.1, December 2016
@@ -73,3 +75,4 @@ creator(s) a pint.
 
 3. Code is provided with no warranty. Using somebody else's code and bitching when it goes wrong makes
 you a DONKEY dick. Fix the problem yourself. A non-dick would submit the fix back.
+```
