@@ -32,6 +32,7 @@ See Usage...
 
 ```shell
 docker run -it --rm \
+   --platform linux/amd64 \
    -v "$(pwd):/input:ro" \
    -v "$(pwd):/output:rw" \
    ivonet/rcrack:latest [file.aax]
